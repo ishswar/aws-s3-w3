@@ -15,7 +15,12 @@ OPTIONS:
                           $0 -createuser user-name password email
    -uploadfile      Upload file to user bucket
                           $0 -uploadfile user-name password file-key path-to-file-to-upload
-   -uploadfile      Remove user bucket 
+   -listfiles       list users file on S3 bucket
+                          $0 -listfiles user-name password 
+   -getfile       list users file on S3 bucket
+                          $0 -getfile user-name password file-key path-to-save-file-to
+   -deletefile       list users file on S3 bucket
+                          $0 -getfile user-name password file-key                       
 EOF
 }
 
@@ -58,7 +63,7 @@ case "$OPTIONS" in
                     usage
                 fi
             else
-                echo "We expecte 4 parameters for command createuser"
+                echo "We expecte 4 parameters for command $1"
                 if [ $# -gt 4 ]; then echo " (toomany parameters) "; else echo " (less than expected parameters)"; fi
                 echo "----------------------------------------------"
                 usage
@@ -82,7 +87,7 @@ case "$OPTIONS" in
                     FILESIZE=$(stat -c%s "$FILE_PATH")
                 fi
             else
-                echo "We expecte 5 parameters for command createuser"
+                echo "We expecte 5 parameters for command $1"
                 if [ $# -gt 5 ]; then echo " (toomany parameters) "; else echo " (less than expected parameters)"; fi
                 echo "----------------------------------------------"
                 usage
@@ -92,15 +97,60 @@ case "$OPTIONS" in
              break;;
  "-listfiles") 
              #removeUserBucket "ucsc-users.hw7"
-             echo "listfiles"
+             if [[ $# -eq 3 ]] ; then
+                #echo "found 4 parmas"
+                USERNAME=$2
+                PASSWORD=$3
+            else
+                echo "We expecte 3 parameters for command $1"
+                if [ $# -gt 3 ]; then echo " (toomany parameters) "; else echo " (less than expected parameters)"; fi
+                echo "----------------------------------------------"
+                usage
+                break
+            fi
+             echo "About to list files by user [$USERNAME]"
              break;;
  "-getfile") 
+             # user-name password file-key path-to-save-file-to
              #removeUserBucket "ucsc-users.hw7"
-             echo "getfile"
+             if [[ $# -eq 5 ]] ; then
+                #echo "found 4 parmas"
+                USERNAME=$2
+                PASSWORD=$3
+                FILE_KEY=$4
+                DOWNLOAD_DIR=$5
+                if [ ! -d "$DOWNLOAD_DIR" ]; then
+                    echo "Directory [$DOWNLOAD_DIR] not found!"
+                    exit 1
+                else
+                    if [ $DOWNLOAD_DIR = "." ]; then 
+                        DOWNLOAD_DIR=$PWD
+                    fi
+                fi
+            else
+                echo "We expecte 5 parameters for command $1"
+                if [ $# -gt 5 ]; then echo " (toomany parameters) "; else echo " (less than expected parameters)"; fi
+                echo "----------------------------------------------"
+                usage
+                break
+            fi
+             echo "About to download file by user [$USERNAME] , matching file-key $FILE_KEY to destination $DOWNLOAD_DIR"
              break;;      
   "-deletefile") 
-             #removeUserBucket "ucsc-users.hw7"
-             echo "deletefile"
+             #user-name password file-key
+                          if [[ $# -eq 4 ]] ; then
+                #echo "found 4 parmas"
+                USERNAME=$2
+                PASSWORD=$3
+                FILE_KEY=$4
+            else
+                echo "We expecte 4 parameters for command $1"
+                if [ $# -gt 4 ]; then echo " (toomany parameters) "; else echo " (less than expected parameters)"; fi
+                echo "----------------------------------------------"
+                usage
+                break
+            fi
+             echo "About to delete file by user [$USERNAME], matching file-key $FILE_KEY"
              break;;                                   
  "-h")
             usage
