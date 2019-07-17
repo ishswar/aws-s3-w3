@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-source /vagrant/functions.sh || exit 0
+source /vagrant/aws-cli/w3/functions.sh || exit 0
 
 usage()
 {
