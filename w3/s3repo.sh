@@ -10,16 +10,16 @@ usage: $0 options
 In order to run this script you need to pass one of below options
 
 OPTIONS:
-   -h            Show this message
+   -h               Show this message
    -createuser      Create user bucket
                           $0 -createuser user-name password email
    -uploadfile      Upload file to user bucket
                           $0 -uploadfile user-name password file-key path-to-file-to-upload
    -listfiles       list users file on S3 bucket
                           $0 -listfiles user-name password 
-   -getfile       list users file on S3 bucket
+   -getfile         list users file on S3 bucket
                           $0 -getfile user-name password file-key path-to-save-file-to
-   -deletefile       list users file on S3 bucket
+   -deletefile      delete users file on S3 bucket with matching file-key
                           $0 -getfile user-name password file-key                       
 EOF
 }
