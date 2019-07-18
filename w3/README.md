@@ -18,6 +18,9 @@ Once user has been create user can do few things :
 
 All of above commands will need to have user-name and password passed as input and it will be validated against password was provided during user creation 
 
+![S3 diagram](screenCaptures/S3-bucket.png)
+
+
 ### About files 
 
 s3repo.sh : This is main driver file - this takes care of validating input ( number of parameters , options etc ) - it has no AWS S3 Api code 
