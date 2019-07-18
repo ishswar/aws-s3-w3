@@ -1,5 +1,66 @@
 # aws-s3-w3
 
+<details>
+  <summary>Full requirements</summary>
+01) createuser will have these command line arguments:
+
+user-name password email
+
+for example, in a console/terminal:
+
+createuser MrCat NiceCat cats@cats.com
+
+On first use , create the bucket you need to hold users in.
+
+Create an object in the users bucket that stores an object as follows: 
+key=user-name
+values=[password, user-email] (a list)
+
+You must be able to handle the case where the user already exists. For example, if createuser is called for an existing user, update the password and email address in the S3 object that hold that user's information.
+
+
+02) uploadfile will have these command line arguments:
+
+user-name password file-key path-to-file-to-upload
+
+user-name = the user-name from createuser
+password = the user's password from createuser
+file-key = is a tag/string that the user can associate with an uploaded file
+path-to-file-to-upload = the path to a file on your machine to save in S3
+
+The file-key and path-to-file-to-upload may have spaces
+
+For example: uploadfile MrCat NiceCat My-Favorite-Dog-Picture .\dog1.jpg
+
+
+You must handle typical errors like: user does not exist, bad password, cannot find file
+
+03) listfiles will have these command line arguments:
+
+user-name password
+
+For example: listfiles MtCat NiceCat
+
+For each user file stored, this script prints one line to the console:
+
+file-key 
+
+NOTE: do not worry about formatting the console output. The columns for each file do NOT have to line up.
+
+04) getfile will have these command line arguments:
+
+user-name password file-key path-to-save-file-to
+
+For example: getfile MrCat NiceCat 'Picture of my favorite dog' .\MyFavoriteDog
+
+05) deletefile will have there command line parameters:
+
+user-name password file-key
+
+For example: deletefile MrCat NiceCat Bird01
+</details>
+
+
 ### Introduction 
 
 Objective of this project is to use AWS S3 as file storage for ad-hoc users. 
@@ -162,8 +223,3 @@ File with key [My Second file] got successfully deleted from user's [ucsc1.2019.
 Image shows list of file gone from AWS S3 console 
 
 ![alt text](screenCaptures/deleted_file.jpg)
-
-<details>
-  <summary>Click to expand</summary>
-  whatever
-</details>
