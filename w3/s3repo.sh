@@ -11,15 +11,17 @@ In order to run this script you need to pass one of below options
 
 OPTIONS:
    -h               Show this message
-   -createuser      Create user bucket
+   -createuser      Create user repository
                           $0 -createuser user-name password email
-   -uploadfile      Upload file to user bucket
+   -deleteuser      Delete user repository
+                          $0 -deleteuser user-name password                          
+   -uploadfile      Upload file to user repository
                           $0 -uploadfile user-name password file-key path-to-file-to-upload
-   -listfiles       list users file on S3 bucket
+   -listfiles       list users file in repository
                           $0 -listfiles user-name password 
-   -getfile         list users file on S3 bucket
+   -getfile         get a perticular file from users repository
                           $0 -getfile user-name password file-key path-to-save-file-to
-   -deletefile      delete users file on S3 bucket with matching file-key
+   -deletefile      delete users file in repository with matching file-key
                           $0 -getfile user-name password file-key                       
 EOF
 }
@@ -34,7 +36,6 @@ if [[ $# -eq 0 ]] ; then
     exit 0
 fi
 
-echo "Starting test"
 #Do case insesntive search 
 shopt -s nocasematch
 
@@ -72,6 +73,24 @@ case "$OPTIONS" in
              echo "About to create user [$USERNAME] with password [$PASSWORD] and E-mail [$EMAIL]"
              createUser $USERNAME $PASSWORD $EMAIL
              break;;
+ "-deleteuser") 
+             
+             #createuser "ucsc-users.hw7"
+             #echo "create $#"
+             if [[ $# -eq 3 ]] ; then
+                #echo "found 4 parmas"
+                USERNAME=$2
+                PASSWORD=$3
+            else
+                echo "We expecte 3 parameters for command $1"
+                if [ $# -gt 3 ]; then echo " (toomany parameters) "; else echo " (less than expected parameters)"; fi
+                echo "----------------------------------------------"
+                usage
+                break
+            fi
+             echo "About to delete user [$USERNAME] with password [$PASSWORD]"
+             deleteGivenUser $USERNAME $PASSWORD $EMAIL
+             break;;             
  "-uploadfile") 
              #removeUserBucket "ucsc-users.hw7"
              #user-name password file-key path-to-file-to-upload
@@ -126,7 +145,7 @@ case "$OPTIONS" in
                     echo "Directory [$DOWNLOAD_DIR] not found!"
                     exit 1
                 else
-                    if [ $DOWNLOAD_DIR = "." ]; then 
+                    if [ "$DOWNLOAD_DIR" = "." ]; then 
                         DOWNLOAD_DIR=$PWD
                     fi
                 fi
@@ -139,7 +158,7 @@ case "$OPTIONS" in
             fi
              echo "About to download file by user [$USERNAME] , matching file-key $FILE_KEY to destination $DOWNLOAD_DIR"
 
-             downloadFile $USERNAME $PASSWORD $FILE_KEY $DOWNLOAD_DIR
+             downloadFile $USERNAME $PASSWORD "$FILE_KEY" "$DOWNLOAD_DIR"
              break;;      
   "-deletefile") 
              #user-name password file-key
@@ -156,12 +175,12 @@ case "$OPTIONS" in
                 break
             fi
              echo "About to delete file by user [$USERNAME], matching file-key $FILE_KEY"
-             deletedFile $USERNAME $PASSWORD $FILE_KEY
+             deletedFile $USERNAME $PASSWORD "$FILE_KEY"
              break;;                                   
  "-h")
             usage
             exit 0;;
- *) usage;;
+ *) usage && exit 0;;
 esac
 
 done
