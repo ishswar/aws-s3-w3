@@ -60,8 +60,9 @@ user-name password file-key
 For example: deletefile MrCat NiceCat Bird01
 </details>
 
+<hr>
 
-### Introduction 
+## Introduction 
 
 Objective of this project is to use AWS S3 as file storage for ad-hoc users. 
 
@@ -90,9 +91,9 @@ function.sh : This is script that interacts with AWS S3 via using AWS S3 api ins
 
 "test folder" : Has sample files for testings 
 
-### Sample output 
+## Sample output 
 
-## Help 
+### Help 
    
    If user does not provide any input or runs it with -h option you will see output like this 
 
@@ -152,7 +153,7 @@ Image shows file uploaded to S3
 
 ![alt text](screenCaptures/upload_file.jpg)
 
-## Two more files upload 
+### Two more files upload 
 
 ``` BASH 
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ ./s3repo.sh -uploadfile ucsc1.2019.1 12345678 "My Second file" "test folder/lipsum-big.txt"
