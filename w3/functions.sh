@@ -12,7 +12,7 @@ if [ $bucketList -gt 0 ];then
     #aws s3 ls
     echo "" 
 else
-    aws s3 mb s3://$1 || { echo "Failed to create Repository $1"; exit 1; }
+    aws s3 mb s3://$1 || { echo "Failed to create Repository [$1]"; exit 1; }
     #aws s3 ls
     #echo "User Repository not found, creating $1"
 fi
@@ -108,13 +108,23 @@ uploadFile(){
 
     autenticateUser $1 $2
 
+    KEY_EXISTS_ON_S3=$(aws s3 ls "s3://$1/$3/" | wc -l)
+
+    if [ $KEY_EXISTS_ON_S3 -eq 0 ]; then 
+
     aws s3 cp --quiet "$4" "s3://$1/$3/"
 
     BASENAME=$(basename "$4")
 
     aws s3 ls "s3://$1/$3/$BASENAME" || { echo "File [$4] did not get uploaded to repository [s3://$1/$3/] - contact admin " ; exit 1; }
 
-    echo "File [$4] got successfully uploaded to repository [s3://$1/$3/]"
+    echo "File [$4] with file-key [$3] got successfully uploaded to repository [s3://$1/$3/]"
+
+    else
+
+    echo "File-key [$3] already exists on Repository, choose different one" 
+
+    fi
 
 }
 

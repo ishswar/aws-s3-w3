@@ -163,3 +163,7 @@ Image shows list of file gone from AWS S3 console
 
 ![alt text](screenCaptures/deleted_file.jpg)
 
+<details>
+  <summary>Click to expand</summary>
+  whatever
+</details>

@@ -156,7 +156,7 @@ case "$OPTIONS" in
                 usage
                 break
             fi
-             echo "About to download file by user [$USERNAME] , matching file-key $FILE_KEY to destination $DOWNLOAD_DIR"
+             echo "About to download file by user [$USERNAME] , matching file-key [$FILE_KEY] to destination [$DOWNLOAD_DIR]"
 
              downloadFile $USERNAME $PASSWORD "$FILE_KEY" "$DOWNLOAD_DIR"
              break;;      
@@ -174,7 +174,7 @@ case "$OPTIONS" in
                 usage
                 break
             fi
-             echo "About to delete file by user [$USERNAME], matching file-key $FILE_KEY"
+             echo "About to delete file by user [$USERNAME], matching file-key [$FILE_KEY]"
              deletedFile $USERNAME $PASSWORD "$FILE_KEY"
              break;;                                   
  "-h")
