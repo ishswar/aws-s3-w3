@@ -2,7 +2,7 @@
 
 <details>
   <summary>Full Output</summary>
-  
+
 ##########################################################################################
 ###################  Create / Upload / Download - S3 bucket via S3 api ###################
 ##########################################################################################
@@ -11,7 +11,7 @@
 
 -- Ceate bucket 
 
-
+``` BASH
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3 help
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3 mb help
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3 mb help
@@ -27,33 +27,37 @@ vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3 ls
 
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3 ls | grep ucsc-hw2-2019
 2019-07-18 12:31:23 ucsc-hw2-2019
-
+```
 
 #2 
 
 -- Upload file 
 
-
+``` BASH
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ touch TestData.txt
 
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3 cp TestData.txt s3://ucsc-hw2-2019
 upload: ./TestData.txt to s3://ucsc-hw2-2019/TestData.txt
 vagrant@amx-vbox:/vagrant/aws-cli/w3$
+```
 
 
 #3
 
 -- List files 
 
+``` BASH
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3 ls s3://ucsc-hw2-2019
 2019-07-18 12:33:32          0 TestData.txt
 vagrant@amx-vbox:/vagrant/aws-cli/w3$
+```
 
 
 #4
 
 -- Remove file from S3 bucket 
 
+``` BASH
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3 help
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3 sync help
 
@@ -76,14 +80,14 @@ drwxrwxr-x 1 vagrant vagrant  224 Jul 18 11:44 screenCaptures
 drwxrwxr-x 1 vagrant vagrant  160 Jul 18 01:08 test folder
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ ls -la TestData.txt
 -rwxrwxr-- 1 vagrant vagrant 0 Jul 18 12:33 TestData.txt
-
+```
 
 
 #5 
 
 -- Delete S3 bucket 
 
-
+``` BASH
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3 rm help
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3 rm s3://ucsc-hw2-2019/TestData.txt
 delete: s3://ucsc-hw2-2019/TestData.txt
@@ -97,7 +101,7 @@ vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3 ls s3://ucsc-hw2-2019
 
 An error occurred (NoSuchBucket) when calling the ListObjectsV2 operation: The specified bucket does not exist
 vagrant@amx-vbox:/vagrant/aws-cli/w3$
-
+```
 
 
 ############################################################################
@@ -108,6 +112,7 @@ vagrant@amx-vbox:/vagrant/aws-cli/w3$
 
 -- Create bucket 
 
+``` BASH
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3api help
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3api create-bucket help
 
@@ -115,11 +120,13 @@ vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3api create-bucket --bucket ucsc-hw2-
 {
     "Location": "http://ucsc-hw2-2019.s3.amazonaws.com/"
 }
+```
 
 #2 
 
 -- List bucket 
 
+``` BASH
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3api list-buckets
 {
     "Buckets": [
@@ -152,13 +159,13 @@ vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3api list-buckets --query "Buckets[].
     "ucsc-users.hw7",
     "ucsc1.2019.1"
 ]
-
+```
 
 #3 
 
 -- Upload a file 
 
-
+``` BASH
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3api put-object --bucket ucsc-hw2-2019 --key TestData.txt --body TestData.txt
 {
     "ETag": "\"d41d8cd98f00b204e9800998ecf8427e\""
@@ -168,6 +175,7 @@ vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3api put-object --bucket ucsc-hw2-201
 
 -- List files in bucket 
 
+``` BASH
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3api list-objects --bucket ucsc-hw2-2019
 {
     "Contents": [
@@ -184,11 +192,12 @@ vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3api list-objects --bucket ucsc-hw2-2
         }
     ]
 }
-
+```
 #5 
 
 -- Remove file and get it back from S3 
 
+``` BASH
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ rm TestData.txt
 
 vagrant@amx-vbox:/vagrant/aws-cli/w3$ ls -la
@@ -225,12 +234,13 @@ drwxrwxr-x 1 vagrant vagrant  160 Jul 18 00:59 ..
 drwxrwxr-x 1 vagrant vagrant  224 Jul 18 11:44 screenCaptures
 -rwxrwxr-- 1 vagrant vagrant    0 Jul 18 12:52 TestData.txt
 drwxrwxr-x 1 vagrant vagrant  160 Jul 18 01:08 test folder
-
+```
 
 #6
 
 -- Remove file from bucket and Remove S3 bucket 
 
+``` BASH
 aws s3api delete-object --bucket ucsc-hw2-2019 --key TestData.txt
 
 
@@ -243,6 +253,6 @@ vagrant@amx-vbox:/vagrant/aws-cli/w3$ aws s3api list-buckets --query "Buckets[].
     "ucsc-users.hw7",
     "ucsc1.2019.1"
 ]
-
+```
 
  </details>
