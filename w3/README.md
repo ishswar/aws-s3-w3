@@ -1,4 +1,4 @@
-# aws-s3-w3
+# User file repository based on AWS S3
 
 <details>
   <summary>Full requirements</summary>
