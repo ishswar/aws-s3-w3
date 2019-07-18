@@ -70,6 +70,7 @@ case "$OPTIONS" in
                 break
             fi
              echo "About to create user [$USERNAME] with password [$PASSWORD] and E-mail [$EMAIL]"
+             createUser $USERNAME $PASSWORD $EMAIL
              break;;
  "-uploadfile") 
              #removeUserBucket "ucsc-users.hw7"
@@ -94,6 +95,7 @@ case "$OPTIONS" in
                 break
             fi
              echo "About to upload file for user [$USERNAME] with password [$PASSWORD] file key [$FILE_KEY] and local file [$FILE_PATH]($FILESIZE kb)"
+             uploadFile $USERNAME $PASSWORD "$FILE_KEY" "$FILE_PATH"
              break;;
  "-listfiles") 
              #removeUserBucket "ucsc-users.hw7"
@@ -109,6 +111,7 @@ case "$OPTIONS" in
                 break
             fi
              echo "About to list files by user [$USERNAME]"
+             listFiles $USERNAME $PASSWORD
              break;;
  "-getfile") 
              # user-name password file-key path-to-save-file-to
@@ -135,6 +138,8 @@ case "$OPTIONS" in
                 break
             fi
              echo "About to download file by user [$USERNAME] , matching file-key $FILE_KEY to destination $DOWNLOAD_DIR"
+
+             downloadFile $USERNAME $PASSWORD $FILE_KEY $DOWNLOAD_DIR
              break;;      
   "-deletefile") 
              #user-name password file-key
@@ -151,6 +156,7 @@ case "$OPTIONS" in
                 break
             fi
              echo "About to delete file by user [$USERNAME], matching file-key $FILE_KEY"
+             deletedFile $USERNAME $PASSWORD $FILE_KEY
              break;;                                   
  "-h")
             usage
