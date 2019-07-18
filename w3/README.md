@@ -70,7 +70,7 @@ User Created/Updated successfully
 ```
 Image shows two buckets created 
 
-![alt text](screenCaptures\create_user.jpg)
+![alt text](screenCaptures/create_user.jpg)
 
 ### Upload file 
 
@@ -86,7 +86,7 @@ File [test folder/test2.txt] got successfully uploaded to repository [s3://ucsc1
 
 Image shows file uploaded to S3
 
-![alt text](screenCaptures\upload_file.jpg)
+![alt text](screenCaptures/upload_file.jpg)
 
 ## Two more files upload 
 
@@ -106,7 +106,7 @@ File [test folder/lipsum.txt] got successfully uploaded to repository [s3://ucsc
 
 Image shows list of files from AWS S3 console 
 
-![alt text](screenCaptures\list_of_files.jpg)
+![alt text](screenCaptures/list_of_files.jpg)
 
 
 ### List files 
@@ -158,5 +158,5 @@ File with key [My Second file] got successfully deleted from user's [ucsc1.2019.
 
 Image shows list of file gone from AWS S3 console 
 
-![alt text](screenCaptures\deleted_file.jpg)
+![alt text](screenCaptures/deleted_file.jpg)
 
