@@ -52,3 +52,40 @@ cp -rf /vagrant/aws-cli/w4/setup.sh /vagrant/aws-cli/w4/setup_.sh
 sed -i "s/FQN_NAME/$ELASIC_IP/g" /vagrant/aws-cli/w4/setup_.sh
 
 cat /vagrant/aws-cli/w4/setup_.sh | grep FQN_HOST_NAME
+
+
+
+scp -i /home/vagrant/pshah2019v2.pem -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no /vagrant/aws-cli/w4/setup_.sh ec2-user@$ELASIC_IP:~/
+
+
+ssh -i /home/vagrant/pshah2019v2.pem  -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ec2-user@$ELASIC_IP
+
+
+mysql -u root -p -e "CREATE USER 'admin'@'%'' IDENTIFIED BY 'admin123';"
+
+mysql -u root -p -e "GRANT ALL ON *.* TO 'admin'@'%'";
+mysql -u root -p -e "GRANT GRANT OPTION ON *.* TO 'admin'@'%'";
+
+mysql -u root -p -e "FLUSH PRIVILEGES;"
+
+
+sudo -s 
+
+
+cat << FOE >> /var/www/html/index.htm
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>AWS LAMP Landing page </h2>
+<p>Code for how to create LMAP setup uisng aws cli and manual steps can be found at Git hup:</p>
+
+<a href="https://github.com/ishswar/aws-s3-w3/tree/master/w4">AWS CLI scripts to create LAMP setup on AWS with Elastic IP</a>
+
+</body>
+</html>
+FOE
+EOF
+
+
+aws ec2 terminate-instances --instance-ids $INSTANCE_ID
