@@ -61,7 +61,7 @@ scp -i /home/vagrant/pshah2019v2.pem -o UserKnownHostsFile=/dev/null -o StrictHo
 ssh -i /home/vagrant/pshah2019v2.pem  -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ec2-user@$ELASIC_IP
 
 
-mysql -u root -p -e "CREATE USER 'admin'@'%'' IDENTIFIED BY 'admin123';"
+mysql -u root -p -e "CREATE USER 'admin'@'%' IDENTIFIED BY 'admin123';"
 
 mysql -u root -p -e "GRANT ALL ON *.* TO 'admin'@'%'";
 mysql -u root -p -e "GRANT GRANT OPTION ON *.* TO 'admin'@'%'";
@@ -85,7 +85,7 @@ cat << FOE >> /var/www/html/index.htm
 </body>
 </html>
 FOE
-EOF
+
 
 
 aws ec2 terminate-instances --instance-ids $INSTANCE_ID
