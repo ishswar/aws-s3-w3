@@ -1,0 +1,87 @@
+
+aws ec2 delete-security-group --group-name EC2_UCSC_SecurityGroup
+aws ec2 create-security-group --group-name EC2_UCSC_SecurityGroup --description "Security (for UCSC Cource) Group for EC2 instances to allow port 22,3306,80,443"
+aws ec2 authorize-security-group-ingress --group-name EC2_UCSC_SecurityGroup --protocol tcp --port 22 --cidr 160.101.0.0/24
+aws ec2 authorize-security-group-ingress --group-name EC2_UCSC_SecurityGroup --protocol tcp --port 22 --cidr 75.4.202.0/24
+aws ec2 authorize-security-group-ingress --group-name EC2_UCSC_SecurityGroup --protocol tcp --port 3306 --cidr 160.101.0.0/24
+aws ec2 authorize-security-group-ingress --group-name EC2_UCSC_SecurityGroup --protocol tcp --port 3306 --cidr 75.4.202.0/24
+aws ec2 authorize-security-group-ingress --group-name EC2_UCSC_SecurityGroup --protocol tcp --port 80 --cidr 0.0.0.0/0
+aws ec2 authorize-security-group-ingress --group-name EC2_UCSC_SecurityGroup --protocol tcp --port 443 --cidr 0.0.0.0/0
+aws ec2 describe-security-groups --group-names EC2_UCSC_SecurityGroup
+
+
+ami-035b3c7efe6d061d5
+ami-0f2176987ee50226e
+
+aws ec2 run-instances   --image-id ami-0f2176987ee50226e --key-name pranay --security-groups EC2_UCSC_SecurityGroup --instance-type t2.micro --placement AvailabilityZone=us-west-2b --block-device-mappings DeviceName=/dev/sdh,Ebs={VolumeSize=100} --count 1
+
+
+
+
+  528  aws ec2 run-instances   --image-id ami-0f2176987ee50226e --key-name pshah2019v2 --security-groups EC2_UCSC_SecurityGroup --instance-type t2.micro --placement AvailabilityZone=us-west-2b --block-device-mappings DeviceName=/dev/sdh,Ebs={VolumeSize=100} --count 1
+
+  533  aws ec2 describe-instance-status --instance-ids i-0e0958f262ea06b65 | jq .InstanceStatuses[0].SystemStatus.Details[0].Status
+  534  aws ec2 describe-instances --instance-ids i-0e0958f262ea06b65
+  535  aws ec2 describe-instances --instance-ids i-0e0958f262ea06b65 | jq .Reservations[0].Instances[0].PublicDnsName
+  536  ssh -i /home/vagrant/pshah2019v2.pem  ec2-user@ec2-34-220-61-31.us-west-2.compute.amazonaws.co
+
+
+
+scp -i /home/vagrant/pshah2019v2.pem steps.txt ec2-user@ec2-34-220-61-31.us-west-2.compute.amazonaws.com:~/
+
+
+aws ec2 run-instances   --image-id ami-0f2176987ee50226e --key-name pshah2019v2 --security-groups EC2_UCSC_SecurityGroup --instance-type t2.micro --placement AvailabilityZone=us-west-2b --block-device-mappings DeviceName=/dev/sdh,Ebs={VolumeSize=100} --count 1 | tee output.json && export INSTANCE_ID=$(cat output.json | jq .Instances[0].InstanceId) && export INSTANCE_ID=$(echo "$INSTANCE_ID" | tr -d '"') &&echo "";echo "##############################################";echo "Instance ID of machine is $INSTANCE_ID"
+
+export FQN_NAME=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID | jq .Reservations[0].Instances[0].PublicDnsName) && export FQN_NAME=$(echo "$FQN_NAME" | tr -d '"') && echo "Instance FQN name $FQN_NAME"
+
+#aws ec2 describe-instance-status --instance-ids $INSTANCE_ID | jq .InstanceStatuses[0].SystemStatus.Details[0].Status
+
+while true
+ do
+ STATE=$(aws ec2 describe-instance-status --instance-ids $INSTANCE_ID | jq .InstanceStatuses[0].SystemStatus.Details[0].Status)
+ export STATE=$(echo "$STATE" | tr -d '"')
+
+ echo "Current state instance is $STATE"
+
+ if [ $STATE == "initializing" ]; then
+ echo "It looks like machine is not up will check again in 10 seconds"
+ sleep 10
+ else
+ echo "It looks like machien is up"
+ break
+ fi
+ done
+
+
+cp -rf /vagrant/aws-cli/w4/setup.sh /vagrant/aws-cli/w4/setup_.sh
+
+sed -i "s/FQN_NAME/$FQN_NAME/g" /vagrant/aws-cli/w4/setup_.sh
+
+cat /vagrant/aws-cli/w4/setup_.sh | grep FQN_HOST_NAME
+
+scp -i /home/vagrant/pshah2019v2.pem -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no /vagrant/aws-cli/w4/setup_.sh ec2-user@$FQN_NAME:~/
+
+ssh -i /home/vagrant/pshah2019v2.pem  -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ec2-user@$FQN_NAME
+
+/usr/libexec/mysql56/mysqladmin -u root password 'root123'
+/usr/libexec/mysql56/mysqladmin -u root -h `hostname` password 'root123'
+
+mysql -u root -p -e CREATE USER ‘admin’@’%’ IDENTIFIED BY ‘admin123’;
+
+GRANT ALL ON *.* TO ‘admin’@'%’;
+GRANT GRANT OPTION ON *.* TO ‘admin’@'%';
+
+aws ec2 describe-instances --instance-ids $INSTANCE_ID | jq .Reservations[0].Instances[0].PublicDnsName
+
+
+
+
+
+
+
+
+
+
+
+
+aws ec2 terminate-instances --instance-ids $INSTANCE_ID
