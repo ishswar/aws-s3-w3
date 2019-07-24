@@ -34,6 +34,8 @@ s3 = boto3.client('s3')
 ```
 ## Code 
 
+Look at the python file [list_instances.py](https://github.com/ishswar/aws-s3-w3/blob/master/w5/list_instances.py)
+
 ## Sample output 
 
 ### Happy path 
