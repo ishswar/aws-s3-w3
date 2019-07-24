@@ -1,5 +1,5 @@
 
-### Introduction  
+## Introduction  
 
 Output of program that list EC2 instances using boto3 
 
@@ -36,7 +36,7 @@ s3 = boto3.client('s3')
 
 ## Sample output 
 
-# Happy path 
+### Happy path 
 
 ```
 vagrant@amx-vbox:/vagrant/aws-cli/w5$ ./list_instances.py
@@ -107,7 +107,7 @@ ucsc1.2019.1             18 July 2019 07:29:42 AM     swaraj_shah  28d36865206f6
               My Third file/lipsum.txt     3.383        18 July 2019 08:03:24 AM   STANDARD
 ```
 
-# Case when AWS credentials are not even configured on machine 
+### Case when AWS credentials are not even configured on machine 
 
 ```
 vagrant@amx-vbox:/vagrant/aws-cli/w5$ ./list_instances.py
@@ -115,7 +115,7 @@ Error connecting to AWS: You must specify a region.
 The AWS CLI is not configured. Please configure it using instructions at http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
 vagrant@amx-vbox:/vagrant/aws-cli/w5$
 ```
-# Case when AWS credentials are not correct 
+### Case when AWS credentials are not correct 
 
 ```
 vagrant@amx-vbox:/vagrant/aws-cli/w5$ ./list_instances.py
@@ -125,7 +125,7 @@ vagrant@amx-vbox:/vagrant/aws-cli/w5$ ./list_instances.py
 Error connecting to AWS : An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
 ```
 
-# Case when some ec2 instances are stopped and some are running 
+### Case when some ec2 instances are stopped and some are running 
 
 ```
 vagrant@amx-vbox:/vagrant/aws-cli/w5$ ./list_instances.py
@@ -147,7 +147,7 @@ i-05e7734787f7b377f      t2.micro       ami-0f2176987ee50226e  running      psha
 i-00eba519691255242      t2.micro       ami-0f2176987ee50226e  stopped      pshah2019v2  vpc-8448efe1 subnet-4a97493d      EC2_UCSC_SecurityGroup    172.31.30.83           ip-172-31-30-83.us-west-2.compute.internal   None
 ```
 
-# Case when all ec2 instances are terminated 
+### Case when all ec2 instances are terminated 
 
 ```
 vagrant@amx-vbox:/vagrant/aws-cli/w5$ ./list_instances.py
