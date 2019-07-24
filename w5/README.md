@@ -38,6 +38,15 @@ s3 = boto3.client('s3')
 
 ### Happy path 
 
+Using below AWS CLI spin-off 4 ec2 instances (before testing)
+
+``` BASH
+
+aws ec2 run-instances   --image-id ami-0f2176987ee50226e --key-name pshah2019v2 --security-groups EC2_UCSC_SecurityGroup --instance-type t2.micro --placement AvailabilityZone=us-west-2b --block-device-mappings DeviceName=/dev/sdh,Ebs={VolumeSize=100} --count 4
+```
+
+There are 3 S3 buckets also you will see output about them too 
+
 ```
 vagrant@amx-vbox:/vagrant/aws-cli/w5$ ./list_instances.py
 ======================================  ======================================
