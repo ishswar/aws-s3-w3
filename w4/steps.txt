@@ -66,10 +66,11 @@ ssh -i /home/vagrant/pshah2019v2.pem  -o UserKnownHostsFile=/dev/null -o StrictH
 /usr/libexec/mysql56/mysqladmin -u root password 'root123'
 /usr/libexec/mysql56/mysqladmin -u root -h `hostname` password 'root123'
 
-mysql -u root -p -e CREATE USER ‘admin’@’%’ IDENTIFIED BY ‘admin123’;
+mysql -u root -p -e "CREATE USER 'admin'@'%'' IDENTIFIED BY 'admin123';""
 
-GRANT ALL ON *.* TO ‘admin’@'%’;
-GRANT GRANT OPTION ON *.* TO ‘admin’@'%';
+mysql -u root -p -e "GRANT ALL ON *.* TO 'admin'@'%'";
+mysql -u root -p -e "GRANT GRANT OPTION ON *.* TO 'admin'@'%'";
+mysql -u root -p -e "FLUSH PRIVILEGES";
 
 aws ec2 describe-instances --instance-ids $INSTANCE_ID | jq .Reservations[0].Instances[0].PublicDnsName
 
